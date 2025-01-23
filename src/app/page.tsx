@@ -8,13 +8,36 @@ export default function Home() {
   const [step, setStep] = useState(1);
   const [aiThinking, setAiThinking] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const question = "What is the capital of France?";
+  // const question = "What is the capital of France?";
+  // const question = "What is the highest mountain peak in the solar system?";
+  // const question =
+  // "In the Netflix Korean drama Squid Game, what is the first game the contestants play?";
+  const question =
+    "任天堂(Nintendo)的耀西(Yoshi)在2019年後被官方證實是哪一種動物(animals)?";
 
+  // const answers = [
+  //   { id: "A", text: "Berlin" },
+  //   { id: "B", text: "Madrid" },
+  //   { id: "C", text: "Paris" },
+  //   { id: "D", text: "Rome" },
+  // ];
+  // const answers = [
+  //   { id: "A", text: "Mount Everest" },
+  //   { id: "B", text: "Mount Kilimanjaro" },
+  //   { id: "C", text: "Olympus Mons" },
+  //   { id: "D", text: "Mount Fuji Response" },
+  // ];
+  // const answers = [
+  //   { id: "A", text: "One, two, three, freeze!" },
+  //   { id: "B", text: "Tug of War" },
+  //   { id: "C", text: "Marbles" },
+  //   { id: "D", text: "Ride bike" },
+  // ];
   const answers = [
-    { id: "A", text: "Berlin" },
-    { id: "B", text: "Madrid" },
-    { id: "C", text: "Paris" },
-    { id: "D", text: "Rome" },
+    { id: "A", text: "蜥蜴(Lizard)" },
+    { id: "B", text: "恐龍(Dinosaur)" },
+    { id: "C", text: "小卷(Squid)" },
+    { id: "D", text: "烏龜(Turtle)" },
   ];
 
   // submit answer for the round
@@ -45,34 +68,17 @@ export default function Home() {
         2.	Select the correct answer based on knowledge: Use your expertise to ensure your response is factually correct.
         3.	Avoid biases toward specific options: Do not default to any specific choice (e.g., A) or follow patterns unless the content of the question dictates the correct answer.
         4.	Treat every question independently: Focus only on the current question without considering previous patterns.
+        
 
       [Clarification for Answering Questions]
         •	Review each answer choice equally and identify the correct one based on your factual knowledge.
         •	Avoid prioritizing options based on order or repetition.
         •	Respond with a single letter (A, B, C, or D) corresponding to the correct answer.
 
-      [Example Questions]
-      To ensure accuracy, here are sample questions and how you should respond:
-      Question: "What is the capital of Taiwan?"
-      Options:
-      A. Taipei
-      B. Beijing
-      C. Seoul
-      D. Tokyo
-      Answer: A
-
-      Question: "What is 5 + 5?"
-      Options:
-      A. 9
-      B. 10
-      C. 11
-      D. 12
-      Answer: B
-
-      You are a quiz assistant. Your task is to choose the correct answer to the following question.
-      Question: **${question}**  
-      Options: **${answers.map((item) => `${item.id}.  ${item.text},`)} **
-      Select only one answer follow in Options (A. B. C. or D.) and respond with the corresponding letter—nothing else.
+        Now answer the following question and match your answer to the correct option
+      Question: ${question}
+      Options: ${answers.map(({ id, text }) => `${id}. ${text}`)}
+      Tell me the correct option—respond with the shortest answer possible, nothing else.
     `,
       }
     );
@@ -86,9 +92,10 @@ export default function Home() {
     // );
 
     console.log("AI Response to the question was: ", data);
-
+    const match = data?.message?.content.match(/^[^.]+/); // 匹配.前的所有字符
+    const result = match ? match[0] : null;
     setAiThinking(false);
-    setSelectedAnswer(data?.message?.content);
+    setSelectedAnswer(result);
   }
 
   function renderStep() {
