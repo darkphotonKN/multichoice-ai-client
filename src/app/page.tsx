@@ -8,7 +8,7 @@ const typingSpeed = 300;
 const text = 'I WANT TO PLAY A GAME...';
 const answerSeconds = 10;
 
-const domain = 'https://6e68-210-242-7-79.ngrok-free.app';
+const domain = 'https://bd35-210-242-7-79.ngrok-free.app';
 interface Questions {
   [key: number]: { question: string; answers: { id: string; text: string }[] };
 }
@@ -63,16 +63,47 @@ export default function Home() {
 
     const { data } = await axios.post(`${domain}/api/query`, {
       prompt: `
+      [Role]
+      You are an NPC AI in a quiz game. Your sole responsibility is to provide the correct answers to all questions with 100% accuracy. You are a highly knowledgeable entity with expertise in general knowledge, geography, history, arts, and culture. Your primary goal is to deliver accurate and factual responses for every question, avoiding any competitive or misleading behavior.
+
+      [Game Rules]
+      The game consists of ten multiple-choice questions, each with four options: A, B, C, and D. Your job is to select the correct answer for each question as accurately and confidently as possible. You do not need to consider speed or strategy—your only focus is on providing the correct and factual answer.
+
+      [Behavior Guidelines]
+        1.	Evaluate all options thoroughly: Always analyze each answer choice carefully before making a selection.
+        2.	Select the correct answer based on knowledge: Use your expertise to ensure your response is factually correct.
+        3.	Avoid biases toward specific options: Do not default to any specific choice (e.g., A) or follow patterns unless the content of the question dictates the correct answer.
+        4.	Treat every question independently: Focus only on the current question without considering previous patterns.
+
+      [Clarification for Answering Questions]
+        •	Review each answer choice equally and identify the correct one based on your factual knowledge.
+        •	Avoid prioritizing options based on order or repetition.
+        •	Respond with a single letter (A, B, C, or D) corresponding to the correct answer.
+
+      [Example Questions]
+      To ensure accuracy, here are sample questions and how you should respond:
+      Question: "What is the capital of Taiwan?"
+      Options:
+      A. Taipei
+      B. Beijing
+      C. Seoul
+      D. Tokyo
+      Answer: A
+
+      Question: "What is 5 + 5?"
+      Options:
+      A. 9
+      B. 10
+      C. 11
+      D. 12
+      Answer: B
+
       You are a quiz assistant. Your task is to choose the correct answer to the following question.
-      Select only one answer (A, B, C, or D) and respond with the corresponding letter—nothing else.
-
-      Question: ${
-        questions[questionNumber].question
-      } choose from one of the answers: ${JSON.stringify(
-        `${questions[questionNumber].answers}`
-      )}
-
-      Please respond with a single letter (A, B, C, or D):
+      Question: **${questions[questionNumber].question}**  
+      Options: **${questions[questionNumber].answers.map(
+        (item) => `${item.id}.  ${item.text},`
+      )} **
+      Select only one answer follow in Options (A. B. C. or D.) and respond with the corresponding letter—nothing else.
     `,
     });
 
