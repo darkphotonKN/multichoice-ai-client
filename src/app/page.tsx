@@ -14,6 +14,8 @@ export default function Home() {
   // "In the Netflix Korean drama Squid Game, what is the first game the contestants play?";
   const question =
     "任天堂(Nintendo)的耀西(Yoshi)在2019年後被官方證實是哪一種動物(animals)?";
+  // const question =
+  //   "在吉伊卡哇(Chīkawa)動畫中主角(ちいかわ)代表哪一種動物(animals)?";
 
   // const answers = [
   //   { id: "A", text: "Berlin" },
@@ -39,6 +41,12 @@ export default function Home() {
     { id: "C", text: "小卷(Squid)" },
     { id: "D", text: "烏龜(Turtle)" },
   ];
+  // const answers = [
+  //   { id: "A", text: "北極熊(Polar bear)" },
+  //   { id: "B", text: "哈姆太郎(Hamtaro)" },
+  //   { id: "C", text: "飛鼠(Flying squirrel)" },
+  //   { id: "D", text: "兔子(Rabbit)" },
+  // ];
 
   // submit answer for the round
   const handleSubmit = () => {
