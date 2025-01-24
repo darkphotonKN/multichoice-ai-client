@@ -71,40 +71,40 @@ body {
 
 
 .shake {
-  animation: shake 0.5s forwards; /* forwards 確保動畫結束後保持最後狀態 */
+  animation: shake 0.3s forwards; /* forwards 確保動畫結束後保持最後狀態 */
   animation-iteration-count: 1; /* 只執行5次 */
 }
 
 @keyframes shake {
   0% {
-    left: -4px;
+    left: -10px;
   }
   10% {
-    left: 4px 
+    left: 10px 
   }
   20% {
-    left: -4px;
+    left: -10px;
   }
   30% {
-    left: 4px 
+    left: 10px 
   }
   40% {
-    left: -4px;
+    left: -10px;
   }
   50% {
-    left: 4px 
+    left: 10px 
   }
   60% {
-    left: -4px;
+    left: -10px;
   }
   70% {
-    left: 4px 
+    left: 10px 
   }
   80% {
-    left: -4px;
+    left: -10px;
   }
   90% {
-    left: 4px 
+    left: 10px 
   }
   100% {
     left: 0 
