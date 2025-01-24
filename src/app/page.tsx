@@ -79,9 +79,6 @@ export default function Home() {
   const [aiThinking, setAiThinking] = useState(false);
   // 開啟和關掉 ai 思考狀態的文字
   const [isAIAnswer, setIsAIAnswer] = useState(false);
-  const [gamerSelectedAnswer, setGamerSelectedAnswer] = useState<string | null>(
-    null
-  );
   const [AISelectedAnswer, setAISelectedAnswer] = useState<string | null>(null);
 
   const [displayText, setDisplayText] = useState('');
@@ -184,8 +181,10 @@ export default function Home() {
     // );
 
     console.log('AI Response to the question was: ', data);
-    const match = data?.message?.content.match(/^[^.]+/); // 匹配.前的所有字符
+    const match = data?.textResponse.match(/^[^.]+/); // 匹配.前的所有字符
     const result = match ? match[0] : null;
+
+    console.log('match', match);
 
     setAiThinking(false);
     setIsAIAnswer(true);
@@ -252,6 +251,7 @@ export default function Home() {
     setIsRunning(true);
     setSeconds(answerSeconds);
     setQuestionNumber((prev) => prev + 1);
+    setAISelectedAnswer(null);
     setIsAIAnswer(false);
     setAiHasAnswered(false); // 一題只能回答一次 允許下一題作答
   };
@@ -359,19 +359,19 @@ export default function Home() {
                 ))}
               </ul>
               {/* AI Thinking Corner */}
-              {aiThinking ? (
-                <div className="text-[25px] w-[700px] mx-[auto] mt-[40px] flex gap-2 pt-2 w-100 text-center font-medium text-[#aa0000] font-[new-tegomin-regular]">
-                  <Image
-                    width={24}
-                    height={24}
-                    src={'/image/ai.png'}
-                    alt="AI IS HERE"
-                  />{' '}
-                  : 讓我思考一下...
-                </div>
-              ) : (
-                <div className="mt-4"></div>
-              )}
+              <div className="text-[25px] w-[700px] h-[45px] mx-[auto] mt-[40px] flex gap-2 pt-2 w-100 text-center font-medium text-[#aa0000] font-[new-tegomin-regular]">
+                {aiThinking && (
+                  <>
+                    <Image
+                      width={24}
+                      height={24}
+                      src={'/image/ai.png'}
+                      alt="AI IS HERE"
+                    />
+                    ：讓我思考一下...
+                  </>
+                )}
+              </div>
               {/* <button
                 onClick={handleAIChooseAnswer}
                 className="mt-6 w-full bg-gray-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition"
