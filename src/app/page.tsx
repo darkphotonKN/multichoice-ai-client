@@ -272,6 +272,11 @@ export default function Home() {
   console.log("questions[questionNumber]", questions[questionNumber]);
   console.log("AISelectedAnswer", AISelectedAnswer);
 
+  const [totalScore, setTotalScore] = useState({
+    players: 0,
+    ai: 0,
+  });
+
   function renderStep() {
     switch (step) {
       case 1: {
