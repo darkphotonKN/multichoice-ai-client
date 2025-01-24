@@ -1,21 +1,28 @@
-"use client";
-import axios, { AxiosError } from "axios";
-import { useState } from "react";
+'use client';
+import axios, { AxiosError } from 'axios';
+import { useState } from 'react';
 
 function Player() {
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   async function handleSubmit(selectedAnswer: string) {
     const answer = JSON.stringify({
       answer: selectedAnswer,
     });
+<<<<<<< HEAD
 
     let data: any;
 
+=======
+    console.log('answer', answer);
+    let data;
+>>>>>>> 0c66526f1ad4602ea0a954290fd300c7c20b951c
     try {
       const response = await axios.post(
-        "https://0a73-2401-e180-8830-da40-fcb6-268f-649b-186.ngrok-free.app/api/game/submitAnswer",
-        answer,
+        'https://bd35-210-242-7-79.ngrok-free.app/api/game/submitAnswer',
+        {
+          answer: selectedAnswer,
+        }
       );
 
       data = response.data;
@@ -34,16 +41,16 @@ function Player() {
       <div>Welcome Player.</div>
       <div>Choose your answer wisely.</div>
       <div className="flex flex-col gap-4 h-full mt-9">
-        <button className="text-5xl" onClick={() => handleSubmit("A")}>
+        <button className="text-5xl" onClick={() => handleSubmit('A')}>
           A
         </button>
-        <button className="text-5xl" onClick={() => handleSubmit("B")}>
+        <button className="text-5xl" onClick={() => handleSubmit('B')}>
           B
         </button>
-        <button className="text-5xl" onClick={() => handleSubmit("C")}>
+        <button className="text-5xl" onClick={() => handleSubmit('C')}>
           C
         </button>
-        <button className="text-5xl" onClick={() => handleSubmit("D")}>
+        <button className="text-5xl" onClick={() => handleSubmit('D')}>
           D
         </button>
       </div>

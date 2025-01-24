@@ -1,40 +1,108 @@
-"use client";
+'use client';
 
-import axios from "axios";
-import Image from "next/image";
-import { useState } from "react";
+import axios from 'axios';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+
+const typingSpeed = 300;
+const text = 'I WANT TO PLAY A GAME...';
+const answerSeconds = 10;
+
+const domain = 'https://bd35-210-242-7-79.ngrok-free.app';
+interface Questions {
+  [key: number]: { question: string; answers: { id: string; text: string }[] };
+}
+
+const questions: Questions = {
+  1: {
+    question: 'What is the capital of France?',
+    answers: [
+      { id: 'A', text: 'Berlin' },
+      { id: 'B', text: 'Madrid' },
+      { id: 'C', text: 'Paris' },
+      { id: 'D', text: 'Rome' },
+    ],
+  },
+  2: {
+    question: '你媽?',
+    answers: [
+      { id: 'A', text: 'Berlin' },
+      { id: 'B', text: 'Madrid' },
+      { id: 'C', text: 'Paris' },
+      { id: 'D', text: 'Rome' },
+    ],
+  },
+};
 
 export default function Home() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [step, setStep] = useState(1);
+  const [questionNumber, setQuestionNumber] = useState(0);
   const [aiThinking, setAiThinking] = useState(false);
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const question = "What is the capital of France?";
+  const [isAIAnswer, setIsAIAnswer] = useState(false);
+  const [gamerSelectedAnswer, setGamerSelectedAnswer] = useState<string | null>(
+    null
+  );
+  const [AISelectedAnswer, setAISelectedAnswer] = useState<string | null>(null);
 
+  const [displayText, setDisplayText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  // const question = "What is the capital of France?";
+  // const question = "What is the highest mountain peak in the solar system?";
+  // const question =
+  // "In the Netflix Korean drama Squid Game, what is the first game the contestants play?";
+  const question =
+    '任天堂(Nintendo)的耀西(Yoshi)在2019年後被官方證實是哪一種動物(animals)?';
+  // const question =
+  //   "在吉伊卡哇(Chīkawa)動畫中主角(ちいかわ)代表哪一種動物(animals)?";
+
+  // const answers = [
+  //   { id: "A", text: "Berlin" },
+  //   { id: "B", text: "Madrid" },
+  //   { id: "C", text: "Paris" },
+  //   { id: "D", text: "Rome" },
+  // ];
+  // const answers = [
+  //   { id: "A", text: "Mount Everest" },
+  //   { id: "B", text: "Mount Kilimanjaro" },
+  //   { id: "C", text: "Olympus Mons" },
+  //   { id: "D", text: "Mount Fuji Response" },
+  // ];
+  // const answers = [
+  //   { id: "A", text: "One, two, three, freeze!" },
+  //   { id: "B", text: "Tug of War" },
+  //   { id: "C", text: "Marbles" },
+  //   { id: "D", text: "Ride bike" },
+  // ];
   const answers = [
-    { id: "A", text: "Berlin" },
-    { id: "B", text: "Madrid" },
-    { id: "C", text: "Paris" },
-    { id: "D", text: "Rome" },
+    { id: 'A', text: '蜥蜴(Lizard)' },
+    { id: 'B', text: '恐龍(Dinosaur)' },
+    { id: 'C', text: '小卷(Squid)' },
+    { id: 'D', text: '烏龜(Turtle)' },
   ];
+  // const answers = [
+  //   { id: "A", text: "北極熊(Polar bear)" },
+  //   { id: "B", text: "哈姆太郎(Hamtaro)" },
+  //   { id: "C", text: "飛鼠(Flying squirrel)" },
+  //   { id: "D", text: "兔子(Rabbit)" },
+  // ];
 
   // submit answer for the round
-  const handleSubmit = () => {
-    if (!selectedAnswer) {
-      alert("pleaseeeeee select an answer before submitting.");
-      return;
-    }
-    console.log("Selected Answer:", selectedAnswer);
-  };
+  // const handleSubmit = () => {
+  //   if (!AISelectedAnswer) {
+  //     alert('pleaseeeeee select an answer before submitting.');
+  //     return;
+  //   }
+  //   console.log('Selected Answer:', AISelectedAnswer);
+  // };
 
   // test AI choosing answer
   async function handleAIChooseAnswer() {
+    if (!questions[questionNumber]) return;
     setAiThinking(true);
 
-    const { data } = await axios.post(
-      "https://0a73-2401-e180-8830-da40-fcb6-268f-649b-186.ngrok-free.app/api/query",
-      {
-        prompt: `
+    const { data } = await axios.post(`${domain}/api/query`, {
+      prompt: `
       [Role]
       You are an NPC AI in a quiz game. Your sole responsibility is to provide the correct answers to all questions with 100% accuracy. You are a highly knowledgeable entity with expertise in general knowledge, geography, history, arts, and culture. Your primary goal is to deliver accurate and factual responses for every question, avoiding any competitive or misleading behavior.
 
@@ -46,37 +114,24 @@ export default function Home() {
         2.	Select the correct answer based on knowledge: Use your expertise to ensure your response is factually correct.
         3.	Avoid biases toward specific options: Do not default to any specific choice (e.g., A) or follow patterns unless the content of the question dictates the correct answer.
         4.	Treat every question independently: Focus only on the current question without considering previous patterns.
+        
 
       [Clarification for Answering Questions]
         •	Review each answer choice equally and identify the correct one based on your factual knowledge.
         •	Avoid prioritizing options based on order or repetition.
         •	Respond with a single letter (A, B, C, or D) corresponding to the correct answer.
 
-      [Example Questions]
-      To ensure accuracy, here are sample questions and how you should respond:
-      Question: "What is the capital of Taiwan?"
-      Options:
-      A. Taipei
-      B. Beijing
-      C. Seoul
-      D. Tokyo
-      Answer: A
-
-      Question: "What is 5 + 5?"
-      Options:
-      A. 9
-      B. 10
-      C. 11
-      D. 12
-      Answer: B
-
-      You are a quiz assistant. Your task is to choose the correct answer to the following question.
-      Question: **${question}**  
-      Options: **${answers.map((item) => `${item.id}.  ${item.text},`)} **
-      Select only one answer follow in Options (A. B. C. or D.) and respond with the corresponding letter—nothing else.
+        Now answer the following question and match your answer to the correct option
+      Question: ${question}
+      Options: ${answers.map(({ id, text }) => `${id}. ${text}`)}
+      Tell me the correct option—respond with the shortest answer possible, nothing else.
     `,
+<<<<<<< HEAD
       },
     );
+=======
+    });
+>>>>>>> 0c66526f1ad4602ea0a954290fd300c7c20b951c
 
     // const { data } = await axios.post(
     //   "http://localhost:8282/api/query-multi-choice",
@@ -86,16 +141,77 @@ export default function Home() {
     //   }),
     // );
 
-    console.log("AI Response to the question was: ", data);
+    console.log('AI Response to the question was: ', data);
+    const match = data?.message?.content.match(/^[^.]+/); // 匹配.前的所有字符
+    const result = match ? match[0] : null;
 
     setAiThinking(false);
-    setSelectedAnswer(data?.message?.content);
+    setIsAIAnswer(true);
+    setAISelectedAnswer(result);
   }
 
+  const apiStart = async () => {
+    const { data } = await axios.post(`${domain}/api/game/start`);
+    console.log('AI start ', data);
+  };
+
+  const apiEnd = async () => {
+    const { data } = await axios.post(`${domain}/api/game/end`);
+    console.log('AI end ', data);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (currentIndex < text.length) {
+        setDisplayText((prevText) => prevText + text[currentIndex]);
+        setCurrentIndex((prevIndex) => prevIndex + 1);
+      } else {
+        clearInterval(interval);
+      }
+    }, typingSpeed + (currentIndex === 0 ? 6000 : 0));
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [currentIndex]);
+
+  const [seconds, setSeconds] = useState(answerSeconds);
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(() => {
+    if (!isRunning || seconds <= 0) return;
+
+    const intervalId = setInterval(() => {
+      setSeconds((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [isRunning, seconds]);
+
+  const handleNext = () => {
+    apiStart();
+    setIsRunning(true);
+    setSeconds(answerSeconds);
+    setQuestionNumber((prev) => prev + 1);
+    setIsAIAnswer(false);
+  };
+
+  useEffect(() => {
+    if (seconds <= 8 && !isAIAnswer) {
+      handleAIChooseAnswer();
+    }
+    if (seconds === 0) {
+      apiEnd();
+    }
+  }, [seconds, isAIAnswer]);
+
+  console.log('questions[questionNumber]', questions[questionNumber]);
+  console.log('AISelectedAnswer', AISelectedAnswer);
   function renderStep() {
     switch (step) {
       case 1: {
         return (
+<<<<<<< HEAD
           <div className="max-w-xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
             <h1 className="text-2xl font-bold text-gray-800 mb-4">第一題</h1>
             <p className="text-lg text-gray-700 mb-6">{question}</p>
@@ -151,7 +267,112 @@ export default function Home() {
             >
               Submit
             </button>
+=======
+          <div
+            className="text-center font-bold cursor-pointer"
+            onClick={() => {
+              handleNext();
+              setStep(2);
+            }}
+          >
+            <div className="flex text-center justify-center">
+              <div>
+                <div className="text-center">
+                  <img
+                    src="/image/gamer.png"
+                    alt="gamer"
+                    className={`m-auto transition duration-[15s] ${
+                      currentIndex > 5 ? 'brightness-[0.5]' : 'brightness-[0]'
+                    }`}
+                  />
+                </div>
+                <div className="h-[120px] text-[120px] text-[#cc0000] font-[ghastly-panic] flex">
+                  {displayText}
+                  <div className="cursor ml-4"></div>
+                </div>
+              </div>
+            </div>
+>>>>>>> 0c66526f1ad4602ea0a954290fd300c7c20b951c
           </div>
+        );
+      }
+      case 2: {
+        return (
+          <>
+            <h2 className="text-[80px] font-[new-tegomin-regular] text-[#aa0000]">
+              問題{questionNumber}
+            </h2>
+            <div className="w-[1000px] mx-auto mt-10 shadow-lg rounded-lg">
+              {/* <h1 className="text-2xl font-bold mb-4"></h1> */}
+              <p className="text-[80px] text-[#aa0000] mb-6 font-[new-tegomin-regular]">
+                {questions[questionNumber].question}
+              </p>
+
+              <ul className="space-y-4">
+                {questions[questionNumber].answers.map((answer) => (
+                  <li
+                    key={answer.id}
+                    className="text-xl text-[#aa0000] text-[40px] pt-[30px] cursor-pointer"
+                    onClick={() => setGamerSelectedAnswer(answer.id)}
+                  >
+                    <div className="flex gap-2 font-[new-tegomin-regular] ">
+                      <span className="font-medium">{answer.id})</span>{' '}
+                      {answer.text}
+                      {gamerSelectedAnswer === answer.id && (
+                        <Image
+                          width={24}
+                          height={24}
+                          src={'/image/ai.png'}
+                          alt="AI IS HERE"
+                        />
+                      )}
+                      {AISelectedAnswer === answer.id && (
+                        <Image
+                          width={24}
+                          height={24}
+                          src={'/image/ai.png'}
+                          alt="AI IS HERE"
+                        />
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              {/* AI Thinking Corner */}
+              {aiThinking ? (
+                <div className="mt-[20px] flex gap-2 pt-2 w-100 text-center font-medium text-[#aa0000] font-[new-tegomin-regular]">
+                  <Image
+                    width={24}
+                    height={24}
+                    src={'/image/ai.png'}
+                    alt="AI IS HERE"
+                  />{' '}
+                  : 讓我思考一下...
+                </div>
+              ) : (
+                <div className="mt-4"></div>
+              )}
+
+              {/* <button
+                onClick={handleAIChooseAnswer}
+                className="mt-6 w-full bg-gray-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition"
+              >
+                AI Answer
+              </button> */}
+
+              <div className="w-full text-right">
+                {seconds === 0 && (
+                  <button
+                    onClick={handleNext}
+                    className="mt-6  text-[#aa0000] font-[new-tegomin-regular] font-bold py-2 px-4 text-[40px]"
+                  >
+                    下一題
+                  </button>
+                )}
+              </div>
+            </div>
+          </>
         );
       }
     }
@@ -159,7 +380,15 @@ export default function Home() {
 
   return (
     <div className="p-8">
+<<<<<<< HEAD
       <h2 className="text-4xl">問答</h2>
+=======
+      {step >= 2 && (
+        <div className="text-[120px] text-center text-[#aa0000] font-[new-tegomin-regular]">
+          {seconds}
+        </div>
+      )}
+>>>>>>> 0c66526f1ad4602ea0a954290fd300c7c20b951c
       {renderStep()}
     </div>
   );
