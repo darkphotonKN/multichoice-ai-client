@@ -9,7 +9,6 @@ const text = 'I WANT TO PLAY A GAME...';
 const answerSeconds = 10;
 
 const domain = 'https://bd35-210-242-7-79.ngrok-free.app';
-
 interface Questions {
   [key: number]: { question: string; answers: { id: string; text: string }[] };
 }
@@ -27,19 +26,48 @@ const questions: Questions = {
   2: {
     question: '你媽?',
     answers: [
-      { id: 'A', text: 'Berlin' },
-      { id: 'B', text: 'Madrid' },
-      { id: 'C', text: 'Paris' },
-      { id: 'D', text: 'Rome' },
+      { id: 'A', text: 'Google' },
+      { id: 'B', text: 'IBM' },
+      { id: 'C', text: 'Gray' },
+      { id: 'D', text: 'OpenAI' },
+    ],
+  },
+  3: {
+    question:
+      '任天堂(Nintendo)的耀西(Yoshi)在2019年後被官方證實是哪一種動物(animals)?',
+    answers: [
+      { id: 'A', text: '蜥蜴(Lizard)' },
+      { id: 'B', text: '恐龍(Dinosaur)' },
+      { id: 'C', text: '小卷(Squid)' },
+      { id: 'D', text: '烏龜(Turtle)' },
+    ],
+  },
+  4: {
+    question: '在吉伊卡哇(Chīkawa)動畫中主角(ちいかわ)代表哪一種動物(animals)?',
+    answers: [
+      { id: 'A', text: '北極熊(Polar bear)' },
+      { id: 'B', text: '哈姆太郎(Hamtaro)' },
+      { id: 'C', text: '飛鼠(Flying squirrel)' },
+      { id: 'D', text: '兔子(Rabbit)' },
+    ],
+  },
+  5: {
+    question:
+      'In the Netflix Korean drama Squid Game, what is the first game the contestants play?',
+    answers: [
+      { id: 'A', text: 'One, two, three, freeze!' },
+      { id: 'B', text: 'Tug of War' },
+      { id: 'C', text: 'Marbles' },
+      { id: 'D', text: 'Ride bike' },
     ],
   },
 };
 
 export default function Home() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [step, setStep] = useState(1);
   const [questionNumber, setQuestionNumber] = useState(0);
   const [aiThinking, setAiThinking] = useState(false);
+  // 開啟和關掉 ai 思考狀態的文字
   const [isAIAnswer, setIsAIAnswer] = useState(false);
   const [gamerSelectedAnswer, setGamerSelectedAnswer] = useState<string | null>(
     null
@@ -100,6 +128,8 @@ export default function Home() {
   //   }
   //   console.log('Selected Answer:', AISelectedAnswer);
   // };
+  // 倒數計時會不斷重新觸發 Ai
+  const [aiHasAnswered, setAiHasAnswered] = useState<boolean>(false);
 
   // test AI choosing answer
   async function handleAIChooseAnswer() {
@@ -127,8 +157,10 @@ export default function Home() {
         •	Respond with a single letter (A, B, C, or D) corresponding to the correct answer.
 
         Now answer the following question and match your answer to the correct option
-      Question: ${question}
-      Options: ${answers.map(({ id, text }) => `${id}. ${text}`)}
+      Question: ${questions[questionNumber].question}
+      Options: ${questions[questionNumber].answers.map(
+        ({ id, text }) => `${id}. ${text}`
+      )}
       Tell me the correct option—respond with the shortest answer possible, nothing else.
     `,
     });
@@ -211,11 +243,13 @@ export default function Home() {
     setSeconds(answerSeconds);
     setQuestionNumber((prev) => prev + 1);
     setIsAIAnswer(false);
+    setAiHasAnswered(false); // 一題只能回答一次 允許下一題作答
   };
 
   useEffect(() => {
-    if (seconds <= 8 && !isAIAnswer) {
+    if (seconds <= 8 && !aiHasAnswered) {
       handleAIChooseAnswer();
+      setAiHasAnswered(true); // 確保每題AI只回答一次
     }
     if (seconds === 0) {
       apiEnd();
@@ -264,11 +298,11 @@ export default function Home() {
             <div className="w-[1000px] mx-auto mt-10 shadow-lg rounded-lg">
               {/* <h1 className="text-2xl font-bold mb-4"></h1> */}
               <p className="text-[80px] text-[#aa0000] mb-6 font-[new-tegomin-regular]">
-                {questions[questionNumber].question}
+                {questions[questionNumber]?.question}
               </p>
 
               <ul className="space-y-4">
-                {questions[questionNumber].answers.map((answer) => (
+                {questions[questionNumber]?.answers.map((answer) => (
                   <li
                     key={answer.id}
                     className="text-xl text-[#aa0000] text-[40px] pt-[30px]"
