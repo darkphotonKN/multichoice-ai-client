@@ -340,12 +340,15 @@ export default function Home() {
                           />
                         )}
                       {gamerMostAnswer === answer.id && (
-                        <Image
-                          width={24}
-                          height={24}
-                          src={"/image/gamer.png"}
-                          alt="AI IS HERE"
-                        />
+                        <div className="flex flex-row gap-3 text-blue-500">
+                          CI
+                          <Image
+                            width={30}
+                            height={30}
+                            src={"/image/gamer.png"}
+                            alt="AI IS HERE"
+                          />
+                        </div>
                       )}
                       {AISelectedAnswer === answer.id && (
                         <Image
