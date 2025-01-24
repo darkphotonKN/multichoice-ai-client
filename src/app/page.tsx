@@ -10,7 +10,11 @@ const answerSeconds = 10;
 
 const domain = 'https://bd35-210-242-7-79.ngrok-free.app';
 interface Questions {
-  [key: number]: { question: string; answers: { id: string; text: string }[] };
+  [key: number]: {
+    question: string;
+    answers: { id: string; text: string }[];
+    realAnswer: string;
+  };
 }
 
 const questions: Questions = {
@@ -22,6 +26,7 @@ const questions: Questions = {
       { id: 'C', text: 'Paris' },
       { id: 'D', text: 'Rome' },
     ],
+    realAnswer: 'C',
   },
   2: {
     question: '你媽?',
@@ -31,6 +36,7 @@ const questions: Questions = {
       { id: 'C', text: 'Gray' },
       { id: 'D', text: 'OpenAI' },
     ],
+    realAnswer: 'C',
   },
   3: {
     question:
@@ -41,6 +47,7 @@ const questions: Questions = {
       { id: 'C', text: '小卷(Squid)' },
       { id: 'D', text: '烏龜(Turtle)' },
     ],
+    realAnswer: 'C',
   },
   4: {
     question: '在吉伊卡哇(Chīkawa)動畫中主角(ちいかわ)代表哪一種動物(animals)?',
@@ -50,6 +57,7 @@ const questions: Questions = {
       { id: 'C', text: '飛鼠(Flying squirrel)' },
       { id: 'D', text: '兔子(Rabbit)' },
     ],
+    realAnswer: 'C',
   },
   5: {
     question:
@@ -60,6 +68,7 @@ const questions: Questions = {
       { id: 'C', text: 'Marbles' },
       { id: 'D', text: 'Ride bike' },
     ],
+    realAnswer: 'C',
   },
 };
 
@@ -273,10 +282,10 @@ export default function Home() {
               <div>
                 <div className="text-center">
                   <img
-                    src="/image/gamer.png"
+                    src="/image/host.png"
                     alt="gamer"
                     className={`m-auto transition duration-[15s] ${
-                      currentIndex > 5 ? 'brightness-[0.5]' : 'brightness-[0]'
+                      currentIndex > 10 ? 'brightness-[0.5]' : 'brightness-[0]'
                     }`}
                   />
                 </div>
@@ -292,31 +301,46 @@ export default function Home() {
       case 2: {
         return (
           <>
-            <h2 className="text-[80px] font-[new-tegomin-regular] text-[#aa0000]">
+            <h2 className="text-[70px] font-[new-tegomin-regular] text-[#aa0000]">
               問題{questionNumber}
             </h2>
-            <div className="w-[1000px] mx-auto mt-10 shadow-lg rounded-lg">
+            <div className="w-[1200px] mx-auto mt-10 shadow-lg rounded-lg">
               {/* <h1 className="text-2xl font-bold mb-4"></h1> */}
-              <p className="text-[80px] text-[#aa0000] mb-6 font-[new-tegomin-regular]">
+              <p className="text-[70px] text-[#aa0000] mb-6 font-[new-tegomin-regular]">
                 {questions[questionNumber]?.question}
               </p>
 
-              <ul className="space-y-4">
+              <ul className="space-y-4 w-[700px] mx-[auto] mt-[80px]">
                 {questions[questionNumber]?.answers.map((answer) => (
                   <li
                     key={answer.id}
-                    className="text-xl text-[#aa0000] text-[40px] pt-[30px]"
+                    className="text-xl text-[#aa0000] h-[70px]"
                     // onClick={() => setGamerSelectedAnswer(answer.id)}
                   >
-                    <div className="flex gap-2 font-[new-tegomin-regular] ">
+                    <div
+                      className={`flex gap-2 font-[new-tegomin-regular] text-[40px]`}
+                    >
                       <span className="font-medium">{answer.id})</span>{' '}
                       {answer.text}
-                      {`(${allGamerAnswerData?.[answer.id]})`}
+                      {allGamerAnswerData &&
+                        `(${
+                          allGamerAnswerData?.[answer.id] +
+                          (AISelectedAnswer === answer.id ? 1 : 0)
+                        })`}
+                      {questions[questionNumber]?.realAnswer === answer.id &&
+                        seconds === 0 && (
+                          <Image
+                            width={36}
+                            height={36}
+                            src={'/image/right.png'}
+                            alt="AI IS HERE"
+                          />
+                        )}
                       {gamerMostAnswer === answer.id && (
                         <Image
                           width={24}
                           height={24}
-                          src={'/image/ai.png'}
+                          src={'/image/gamer.png'}
                           alt="AI IS HERE"
                         />
                       )}
@@ -335,7 +359,7 @@ export default function Home() {
 
               {/* AI Thinking Corner */}
               {aiThinking ? (
-                <div className="mt-[20px] flex gap-2 pt-2 w-100 text-center font-medium text-[#aa0000] font-[new-tegomin-regular]">
+                <div className="text-[30px] w-[700px] mx-[auto] mt-[40px] flex gap-2 pt-2 w-100 text-center font-medium text-[#aa0000] font-[new-tegomin-regular]">
                   <Image
                     width={24}
                     height={24}
@@ -355,7 +379,7 @@ export default function Home() {
                 AI Answer
               </button> */}
 
-              <div className="w-full text-right">
+              <div className="w-full text-right h-[100px]">
                 {seconds === 0 && (
                   <button
                     onClick={handleNext}
@@ -373,7 +397,7 @@ export default function Home() {
   }
 
   return (
-    <div className="p-8">
+    <div>
       {step >= 2 && (
         <div className="text-[120px] text-center text-[#aa0000] font-[new-tegomin-regular]">
           {seconds}
