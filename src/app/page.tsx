@@ -85,7 +85,7 @@ export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const [gamerMostAnswer, setGamerMostAnswer] = useState('');
-  const [allGamerAnswerData, setAllGamerAnswerData] = useState();
+  const [allGamerAnswerData, setAllGamerAnswerData] = useState(null);
 
   // const question = "What is the capital of France?";
   // const question = "What is the highest mountain peak in the solar system?";
@@ -255,6 +255,7 @@ export default function Home() {
     setGamerMostAnswer('');
     setIsAIAnswer(false);
     setAiHasAnswered(false); // 一題只能回答一次 允許下一題作答
+    setAllGamerAnswerData(null);
   };
 
   useEffect(() => {
@@ -275,6 +276,11 @@ export default function Home() {
     ai: 0,
   });
 
+  console.log(
+    'questions[questionNumber]?.realAnswer',
+    questions[questionNumber]?.realAnswer
+  );
+  console.log('gamerMostAnswer', gamerMostAnswer);
   function renderStep() {
     switch (step) {
       case 1: {
@@ -414,18 +420,24 @@ export default function Home() {
       }`}
     >
       {step >= 2 && (
-        <div className="relative text-[120px] text-center text-[#aa0000] font-[new-tegomin-regular]">
-          {seconds === 0 &&
-            questions[questionNumber]?.realAnswer !== gamerMostAnswer && (
-              <div
-                className={`absolute bloodAnimation`}
-                // className={`absolute transition duration-300 opacity-1`}
-              >
-                <img src="/image/blood.png" alt="" />
-              </div>
-            )}
-          {seconds}
-        </div>
+        <>
+          <div className="relative text-[120px] text-center text-[#aa0000] font-[new-tegomin-regular]">
+            {seconds}
+          </div>
+          {questions[questionNumber] && gamerMostAnswer && (
+            <div className="relative text-[120px] text-center text-[#aa0000] font-[new-tegomin-regular]">
+              {seconds === 0 &&
+                questions[questionNumber].realAnswer !== gamerMostAnswer && (
+                  <div
+                    className={`absolute bloodAnimation`}
+                    // className={`absolute transition duration-300 opacity-1`}
+                  >
+                    <img src="/image/blood.png" alt="" />
+                  </div>
+                )}
+            </div>
+          )}
+        </>
       )}
       {renderStep()}
     </div>
