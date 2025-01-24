@@ -8,7 +8,7 @@ const typingSpeed = 300;
 const text = 'I WANT TO PLAY A GAME...';
 const answerSeconds = 10;
 
-const domain = 'https://bd35-210-242-7-79.ngrok-free.app';
+const domain = 'https://b99d-210-242-7-79.ngrok-free.app';
 interface Questions {
   [key: number]: {
     question: string;
@@ -397,9 +397,25 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <div
+      className={`relative ${
+        seconds === 0 &&
+        questions[questionNumber]?.realAnswer !== gamerMostAnswer
+          ? 'shake'
+          : ''
+      }`}
+    >
       {step >= 2 && (
-        <div className="text-[120px] text-center text-[#aa0000] font-[new-tegomin-regular]">
+        <div className="relative text-[120px] text-center text-[#aa0000] font-[new-tegomin-regular]">
+          {seconds === 0 &&
+            questions[questionNumber]?.realAnswer !== gamerMostAnswer && (
+              <div
+                className={`absolute bloodAnimation`}
+                // className={`absolute transition duration-300 opacity-1`}
+              >
+                <img src="/image/blood.png" alt="" />
+              </div>
+            )}
           {seconds}
         </div>
       )}

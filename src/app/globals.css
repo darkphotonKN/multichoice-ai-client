@@ -52,3 +52,61 @@ body {
     opacity: 1;
   }
 }
+
+.bloodAnimation { 
+  animation: blood 5s forwards; /* forwards 確保動畫結束後保持最後狀態 */
+  animation-iteration-count: 1; /* 只執行一次 */
+}
+
+
+@keyframes blood {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+
+.shake {
+  animation: shake 0.5s forwards; /* forwards 確保動畫結束後保持最後狀態 */
+  animation-iteration-count: 1; /* 只執行5次 */
+}
+
+@keyframes shake {
+  0% {
+    left: -4px;
+  }
+  10% {
+    left: 4px 
+  }
+  20% {
+    left: -4px;
+  }
+  30% {
+    left: 4px 
+  }
+  40% {
+    left: -4px;
+  }
+  50% {
+    left: 4px 
+  }
+  60% {
+    left: -4px;
+  }
+  70% {
+    left: 4px 
+  }
+  80% {
+    left: -4px;
+  }
+  90% {
+    left: 4px 
+  }
+  100% {
+    left: 0 
+  }
+}

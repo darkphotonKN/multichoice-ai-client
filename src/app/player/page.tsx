@@ -14,7 +14,7 @@ function Player() {
     let data: any;
     try {
       const response = await axios.post(
-        'https://bd35-210-242-7-79.ngrok-free.app/api/game/submitAnswer',
+        'https://b99d-210-242-7-79.ngrok-free.app/api/game/submitAnswer',
         {
           answer: selectedAnswer,
         }
