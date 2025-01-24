@@ -10,7 +10,8 @@ function Player() {
       answer: selectedAnswer,
     });
 
-    let data;
+    let data: any;
+
     try {
       const response = await axios.post(
         "https://0a73-2401-e180-8830-da40-fcb6-268f-649b-186.ngrok-free.app/api/game/submitAnswer",

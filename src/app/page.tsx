@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 export default function Home() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [step, setStep] = useState(1);
   const [aiThinking, setAiThinking] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
@@ -74,7 +75,7 @@ export default function Home() {
       Options: **${answers.map((item) => `${item.id}.  ${item.text},`)} **
       Select only one answer follow in Options (A. B. C. or D.) and respond with the corresponding letter—nothing else.
     `,
-      }
+      },
     );
 
     // const { data } = await axios.post(
@@ -95,26 +96,26 @@ export default function Home() {
     switch (step) {
       case 1: {
         return (
-          <div className='max-w-xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg'>
-            <h1 className='text-2xl font-bold text-gray-800 mb-4'>第一題</h1>
-            <p className='text-lg text-gray-700 mb-6'>{question}</p>
+          <div className="max-w-xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
+            <h1 className="text-2xl font-bold text-gray-800 mb-4">第一題</h1>
+            <p className="text-lg text-gray-700 mb-6">{question}</p>
 
-            <ul className='space-y-4'>
+            <ul className="space-y-4">
               {answers.map((answer) => (
                 <li
                   key={answer.id}
-                  className='text-xl text-black'
+                  className="text-xl text-black"
                   onClick={() => setSelectedAnswer(answer.id)}
                 >
-                  <div className='flex gap-2'>
-                    <span className='font-medium'>{answer.id}</span>{" "}
+                  <div className="flex gap-2">
+                    <span className="font-medium">{answer.id}</span>{" "}
                     {answer.text}
                     {selectedAnswer === answer.id && (
                       <Image
                         width={24}
                         height={24}
                         src={"/image/ai.png"}
-                        alt='AI IS HERE'
+                        alt="AI IS HERE"
                       />
                     )}
                   </div>
@@ -124,29 +125,29 @@ export default function Home() {
 
             {/* AI Thinking Corner */}
             {aiThinking ? (
-              <div className='flex gap-2 pt-2 w-100 text-center font-medium text-gray-500'>
+              <div className="flex gap-2 pt-2 w-100 text-center font-medium text-gray-500">
                 <Image
                   width={24}
                   height={24}
                   src={"/image/ai.png"}
-                  alt='AI IS HERE'
+                  alt="AI IS HERE"
                 />{" "}
                 : 讓我思考試一下...
               </div>
             ) : (
-              <div className='mt-4'></div>
+              <div className="mt-4"></div>
             )}
 
             <button
               onClick={handleAIChooseAnswer}
-              className='mt-6 w-full bg-gray-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition'
+              className="mt-6 w-full bg-gray-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition"
             >
               AI Answer
             </button>
 
             <button
               onClick={handleSubmit}
-              className='mt-6 w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition'
+              className="mt-6 w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition"
             >
               Submit
             </button>
@@ -157,8 +158,8 @@ export default function Home() {
   }
 
   return (
-    <div className='p-8'>
-      <h2 className='text-4xl'>問答</h2>
+    <div className="p-8">
+      <h2 className="text-4xl">問答</h2>
       {renderStep()}
     </div>
   );
