@@ -389,7 +389,7 @@ export default function Home() {
                             src={'/image/ai.png'}
                             alt="AI IS HERE"
                           />
-                          <p className="text-[#FFF]">{aiTalkWhy}</p>
+                          {/* <p className="text-[#FFF]">{aiTalkWhy}</p> */}
                         </>
                       )}
                     </div>
@@ -437,6 +437,8 @@ export default function Home() {
     <div
       className={`relative ${
         seconds === 0 &&
+        questions[questionNumber] &&
+        gamerMostAnswer &&
         questions[questionNumber]?.realAnswer !== gamerMostAnswer
           ? 'shake'
           : ''
