@@ -9,7 +9,6 @@ const text = 'I WANT TO PLAY A GAME...';
 const answerSeconds = 10;
 
 const domain = 'https://b99d-210-242-7-79.ngrok-free.app';
-
 interface Questions {
   [key: number]: {
     question: string;
@@ -30,16 +29,6 @@ const questions: Questions = {
     realAnswer: 'C',
   },
   2: {
-    question: '你媽?',
-    answers: [
-      { id: 'A', text: 'Google' },
-      { id: 'B', text: 'IBM' },
-      { id: 'C', text: 'Gray' },
-      { id: 'D', text: 'OpenAI' },
-    ],
-    realAnswer: 'C',
-  },
-  3: {
     question:
       '任天堂(Nintendo)的耀西(Yoshi)在2019年後被官方證實是哪一種動物(animals)?',
     answers: [
@@ -48,9 +37,9 @@ const questions: Questions = {
       { id: 'C', text: '小卷(Squid)' },
       { id: 'D', text: '烏龜(Turtle)' },
     ],
-    realAnswer: 'C',
+    realAnswer: 'D',
   },
-  4: {
+  3: {
     question: '在吉伊卡哇(Chīkawa)動畫中主角(ちいかわ)代表哪一種動物(animals)?',
     answers: [
       { id: 'A', text: '北極熊(Polar bear)' },
@@ -58,16 +47,89 @@ const questions: Questions = {
       { id: 'C', text: '飛鼠(Flying squirrel)' },
       { id: 'D', text: '兔子(Rabbit)' },
     ],
-    realAnswer: 'C',
+    realAnswer: 'A',
+  },
+  4: {
+    question:
+      '在 Netflix 韓劇魷魚遊戲(Squid Game), 哪一項是參賽者第一關玩的遊戲(game)?',
+    answers: [
+      { id: 'A', text: '一二三木頭人 (One, two, three, freeze!)' },
+      { id: 'B', text: '拔河(Tug of War)' },
+      { id: 'C', text: '彈珠(Marbles)' },
+      { id: 'D', text: '騎自行車(Ride bike)' },
+    ],
+    realAnswer: 'A',
   },
   5: {
-    question:
-      'In the Netflix Korean drama Squid Game, what is the first game the contestants play?',
+    question: '無足能行千里路，無翅可飛九重天? 猜一種動物(animals)',
     answers: [
-      { id: 'A', text: 'One, two, three, freeze!' },
-      { id: 'B', text: 'Tug of War' },
-      { id: 'C', text: 'Marbles' },
-      { id: 'D', text: 'Ride bike' },
+      { id: 'A', text: '兔子(Rabbit)' },
+      { id: 'B', text: '蛇(Snake)' },
+      { id: 'C', text: '鯊魚(shark)' },
+      { id: 'D', text: '蜘蛛(Spider)' },
+    ],
+    realAnswer: 'B',
+  },
+  6: {
+    question: '紅衣裡面藏乾肉，過年時節滿天飛? 猜ㄧ物品(Item)',
+    answers: [
+      { id: 'A', text: '紅包(Red envelope)' },
+      { id: 'B', text: '年糕(Rice cake)' },
+      { id: 'C', text: '湯圓(Glutinous rice ball)' },
+      { id: 'D', text: '鞭炮(Firecracker)' },
+    ],
+    realAnswer: 'D',
+  },
+  7: {
+    question: '長得像虎又像豹，害怕紅色和炮聲。（猜傳說中的怪獸）',
+    answers: [
+      { id: 'A', text: '麒麟(Kirin)' },
+      { id: 'B', text: '青龍(Azure Dragon)' },
+      { id: 'C', text: '年獸(Nian (Year Beast))' },
+      { id: 'D', text: '鳳凰(Phoenix)' },
+    ],
+    realAnswer: 'C',
+  },
+  8: {
+    question:
+      '雲端互動(cloud-interactive)的誰不是設計師(UI Designer/ UX Designer) ',
+    answers: [
+      { id: 'A', text: 'Sky Hsu' },
+      { id: 'B', text: 'Chloe Tsai' },
+      { id: 'C', text: 'Jen Jen' },
+      { id: 'D', text: 'Tracy Hou' },
+    ],
+    realAnswer: 'D',
+  },
+  9: {
+    question:
+      '在雲端互動(cloud-interactive)對任何年假或打卡等有疑問時，可以找人人力資源部門(HR)幫忙解決，帶領人力資源部經理(HR Manager)是誰?',
+    answers: [
+      { id: 'A', text: 'Yvonne Chang' },
+      { id: 'B', text: 'Gary Chai' },
+      { id: 'C', text: 'Sean Lin' },
+      { id: 'D', text: 'Rita Chao' },
+    ],
+    realAnswer: 'A',
+  },
+  10: {
+    question:
+      '在雲端互動(cloud-interactive)每月月底(人力資源部門)HR舉辦的Happy Hour，想提供好吃好玩的想法時，該和誰提供意見呢？',
+    answers: [
+      { id: 'A', text: 'David' },
+      { id: 'B', text: 'Danny' },
+      { id: 'C', text: 'Vince' },
+      { id: 'D', text: 'Hera' },
+    ],
+    realAnswer: 'D',
+  },
+  11: {
+    question: '誰不是雲端互動(cloud-interactive)的工程師(RD)？',
+    answers: [
+      { id: 'A', text: 'Michael Cheng' },
+      { id: 'B', text: 'Nick Peng' },
+      { id: 'C', text: 'Sky Hsu' },
+      { id: 'D', text: 'Boris Chang' },
     ],
     realAnswer: 'C',
   },
@@ -79,62 +141,18 @@ export default function Home() {
   const [aiThinking, setAiThinking] = useState(false);
   // 開啟和關掉 ai 思考狀態的文字
   const [isAIAnswer, setIsAIAnswer] = useState(false);
+  const [gamerSelectedAnswer, setGamerSelectedAnswer] = useState<string | null>(
+    null
+  );
   const [AISelectedAnswer, setAISelectedAnswer] = useState<string | null>(null);
 
   const [displayText, setDisplayText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [aiTalkWhy, setAiTalkWhy] = useState('');
 
   const [gamerMostAnswer, setGamerMostAnswer] = useState('');
   const [allGamerAnswerData, setAllGamerAnswerData] = useState(null);
 
-  // const question = "What is the capital of France?";
-  // const question = "What is the highest mountain peak in the solar system?";
-  // const question =
-  // "In the Netflix Korean drama Squid Game, what is the first game the contestants play?";
-  const question =
-    '任天堂(Nintendo)的耀西(Yoshi)在2019年後被官方證實是哪一種動物(animals)?';
-  // const question =
-  //   "在吉伊卡哇(Chīkawa)動畫中主角(ちいかわ)代表哪一種動物(animals)?";
-
-  // const answers = [
-  //   { id: "A", text: "Berlin" },
-  //   { id: "B", text: "Madrid" },
-  //   { id: "C", text: "Paris" },
-  //   { id: "D", text: "Rome" },
-  // ];
-  // const answers = [
-  //   { id: "A", text: "Mount Everest" },
-  //   { id: "B", text: "Mount Kilimanjaro" },
-  //   { id: "C", text: "Olympus Mons" },
-  //   { id: "D", text: "Mount Fuji Response" },
-  // ];
-  // const answers = [
-  //   { id: "A", text: "One, two, three, freeze!" },
-  //   { id: "B", text: "Tug of War" },
-  //   { id: "C", text: "Marbles" },
-  //   { id: "D", text: "Ride bike" },
-  // ];
-  const answers = [
-    { id: 'A', text: '蜥蜴(Lizard)' },
-    { id: 'B', text: '恐龍(Dinosaur)' },
-    { id: 'C', text: '小卷(Squid)' },
-    { id: 'D', text: '烏龜(Turtle)' },
-  ];
-  // const answers = [
-  //   { id: "A", text: "北極熊(Polar bear)" },
-  //   { id: "B", text: "哈姆太郎(Hamtaro)" },
-  //   { id: "C", text: "飛鼠(Flying squirrel)" },
-  //   { id: "D", text: "兔子(Rabbit)" },
-  // ];
-
-  // submit answer for the round
-  // const handleSubmit = () => {
-  //   if (!AISelectedAnswer) {
-  //     alert('pleaseeeeee select an answer before submitting.');
-  //     return;
-  //   }
-  //   console.log('Selected Answer:', AISelectedAnswer);
-  // };
   // 倒數計時會不斷重新觸發 Ai
   const [aiHasAnswered, setAiHasAnswered] = useState<boolean>(false);
 
@@ -161,9 +179,9 @@ export default function Home() {
       [Clarification for Answering Questions]
         •	Review each answer choice equally and identify the correct one based on your factual knowledge.
         •	Avoid prioritizing options based on order or repetition.
-        •	Respond with a single letter (A, B, C, or D) corresponding to the correct answer.
+        
 
-        Now answer the following question and match your answer to the correct option
+      Now answer the following question and match your answer to the correct option
       Question: ${questions[questionNumber].question}
       Options: ${questions[questionNumber].answers.map(
         ({ id, text }) => `${id}. ${text}`
@@ -189,6 +207,7 @@ export default function Home() {
     setAiThinking(false);
     setIsAIAnswer(true);
     setAISelectedAnswer(result);
+    setAiTalkWhy(data?.textResponse);
   }
 
   const apiStart = async () => {
@@ -256,6 +275,7 @@ export default function Home() {
     setIsAIAnswer(false);
     setAiHasAnswered(false); // 一題只能回答一次 允許下一題作答
     setAllGamerAnswerData(null);
+    setAiTalkWhy('');
   };
 
   useEffect(() => {
@@ -362,12 +382,15 @@ export default function Home() {
                         </div>
                       )}
                       {AISelectedAnswer === answer.id && (
-                        <Image
-                          width={24}
-                          height={24}
-                          src={'/image/ai.png'}
-                          alt="AI IS HERE"
-                        />
+                        <>
+                          <Image
+                            width={24}
+                            height={24}
+                            src={'/image/ai.png'}
+                            alt="AI IS HERE"
+                          />
+                          <p className="text-[#FFF]">{aiTalkWhy}</p>
+                        </>
                       )}
                     </div>
                   </li>
