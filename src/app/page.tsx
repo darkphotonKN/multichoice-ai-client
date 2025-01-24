@@ -40,13 +40,15 @@ export default function Home() {
   const [questionNumber, setQuestionNumber] = useState(0);
   const [aiThinking, setAiThinking] = useState(false);
   const [isAIAnswer, setIsAIAnswer] = useState(false);
-  const [gamerSelectedAnswer, setGamerSelectedAnswer] = useState<string | null>(
-    null
-  );
+
   const [AISelectedAnswer, setAISelectedAnswer] = useState<string | null>(null);
 
   const [displayText, setDisplayText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const [gamerMostAnswer, setGamerMostAnswer] = useState('');
+  const [allGamerAnswerData, setAllGamerAnswerData] = useState();
+
   // const question = "What is the capital of France?";
   // const question = "What is the highest mountain peak in the solar system?";
   // const question =
@@ -153,6 +155,23 @@ export default function Home() {
   const apiEnd = async () => {
     const { data } = await axios.post(`${domain}/api/game/end`);
     console.log('AI end ', data);
+    if (data) {
+      const answers = data?.score;
+
+      let mostCounts = 0;
+      let mostAnswer = '';
+      for (const [answer, counts] of Object.entries(
+        answers as Record<string, number>
+      )) {
+        if (counts > mostCounts) {
+          mostCounts = counts;
+          mostAnswer = answer;
+        }
+      }
+
+      setAllGamerAnswerData(answers);
+      setGamerMostAnswer(mostAnswer);
+    }
   };
 
   useEffect(() => {
@@ -249,13 +268,14 @@ export default function Home() {
                 {questions[questionNumber].answers.map((answer) => (
                   <li
                     key={answer.id}
-                    className="text-xl text-[#aa0000] text-[40px] pt-[30px] cursor-pointer"
-                    onClick={() => setGamerSelectedAnswer(answer.id)}
+                    className="text-xl text-[#aa0000] text-[40px] pt-[30px]"
+                    // onClick={() => setGamerSelectedAnswer(answer.id)}
                   >
                     <div className="flex gap-2 font-[new-tegomin-regular] ">
                       <span className="font-medium">{answer.id})</span>{' '}
                       {answer.text}
-                      {gamerSelectedAnswer === answer.id && (
+                      {`(${allGamerAnswerData?.[answer.id]})`}
+                      {gamerMostAnswer === answer.id && (
                         <Image
                           width={24}
                           height={24}

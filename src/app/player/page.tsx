@@ -9,14 +9,8 @@ function Player() {
     const answer = JSON.stringify({
       answer: selectedAnswer,
     });
-<<<<<<< HEAD
-
-    let data: any;
-
-=======
     console.log('answer', answer);
     let data;
->>>>>>> 0c66526f1ad4602ea0a954290fd300c7c20b951c
     try {
       const response = await axios.post(
         'https://bd35-210-242-7-79.ngrok-free.app/api/game/submitAnswer',
