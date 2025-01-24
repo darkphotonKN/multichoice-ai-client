@@ -1,35 +1,36 @@
-'use client';
+"use client";
 
-import axios from 'axios';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import axios from "axios";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const typingSpeed = 300;
-const text = 'I WANT TO PLAY A GAME...';
+const text = "I WANT TO PLAY A GAME...";
 const answerSeconds = 10;
 
-const domain = 'https://bd35-210-242-7-79.ngrok-free.app';
+const domain = "https://bd35-210-242-7-79.ngrok-free.app";
+
 interface Questions {
   [key: number]: { question: string; answers: { id: string; text: string }[] };
 }
 
 const questions: Questions = {
   1: {
-    question: 'What is the capital of France?',
+    question: "What is the capital of France?",
     answers: [
-      { id: 'A', text: 'Berlin' },
-      { id: 'B', text: 'Madrid' },
-      { id: 'C', text: 'Paris' },
-      { id: 'D', text: 'Rome' },
+      { id: "A", text: "Berlin" },
+      { id: "B", text: "Madrid" },
+      { id: "C", text: "Paris" },
+      { id: "D", text: "Rome" },
     ],
   },
   2: {
-    question: '你媽?',
+    question: "你媽?",
     answers: [
-      { id: 'A', text: 'Berlin' },
-      { id: 'B', text: 'Madrid' },
-      { id: 'C', text: 'Paris' },
-      { id: 'D', text: 'Rome' },
+      { id: "A", text: "Berlin" },
+      { id: "B", text: "Madrid" },
+      { id: "C", text: "Paris" },
+      { id: "D", text: "Rome" },
     ],
   },
 };
@@ -41,18 +42,18 @@ export default function Home() {
   const [aiThinking, setAiThinking] = useState(false);
   const [isAIAnswer, setIsAIAnswer] = useState(false);
   const [gamerSelectedAnswer, setGamerSelectedAnswer] = useState<string | null>(
-    null
+    null,
   );
   const [AISelectedAnswer, setAISelectedAnswer] = useState<string | null>(null);
 
-  const [displayText, setDisplayText] = useState('');
+  const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   // const question = "What is the capital of France?";
   // const question = "What is the highest mountain peak in the solar system?";
   // const question =
   // "In the Netflix Korean drama Squid Game, what is the first game the contestants play?";
   const question =
-    '任天堂(Nintendo)的耀西(Yoshi)在2019年後被官方證實是哪一種動物(animals)?';
+    "任天堂(Nintendo)的耀西(Yoshi)在2019年後被官方證實是哪一種動物(animals)?";
   // const question =
   //   "在吉伊卡哇(Chīkawa)動畫中主角(ちいかわ)代表哪一種動物(animals)?";
 
@@ -75,10 +76,10 @@ export default function Home() {
   //   { id: "D", text: "Ride bike" },
   // ];
   const answers = [
-    { id: 'A', text: '蜥蜴(Lizard)' },
-    { id: 'B', text: '恐龍(Dinosaur)' },
-    { id: 'C', text: '小卷(Squid)' },
-    { id: 'D', text: '烏龜(Turtle)' },
+    { id: "A", text: "蜥蜴(Lizard)" },
+    { id: "B", text: "恐龍(Dinosaur)" },
+    { id: "C", text: "小卷(Squid)" },
+    { id: "D", text: "烏龜(Turtle)" },
   ];
   // const answers = [
   //   { id: "A", text: "北極熊(Polar bear)" },
@@ -136,7 +137,7 @@ export default function Home() {
     //   }),
     // );
 
-    console.log('AI Response to the question was: ', data);
+    console.log("AI Response to the question was: ", data);
     const match = data?.message?.content.match(/^[^.]+/); // 匹配.前的所有字符
     const result = match ? match[0] : null;
 
@@ -147,23 +148,26 @@ export default function Home() {
 
   const apiStart = async () => {
     const { data } = await axios.post(`${domain}/api/game/start`);
-    console.log('AI start ', data);
+    console.log("AI start ", data);
   };
 
   const apiEnd = async () => {
     const { data } = await axios.post(`${domain}/api/game/end`);
-    console.log('AI end ', data);
+    console.log("AI end ", data);
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (currentIndex < text.length) {
-        setDisplayText((prevText) => prevText + text[currentIndex]);
-        setCurrentIndex((prevIndex) => prevIndex + 1);
-      } else {
-        clearInterval(interval);
-      }
-    }, typingSpeed + (currentIndex === 0 ? 6000 : 0));
+    const interval = setInterval(
+      () => {
+        if (currentIndex < text.length) {
+          setDisplayText((prevText) => prevText + text[currentIndex]);
+          setCurrentIndex((prevIndex) => prevIndex + 1);
+        } else {
+          clearInterval(interval);
+        }
+      },
+      typingSpeed + (currentIndex === 0 ? 6000 : 0),
+    );
 
     return () => {
       clearInterval(interval);
@@ -200,8 +204,8 @@ export default function Home() {
     }
   }, [seconds, isAIAnswer]);
 
-  console.log('questions[questionNumber]', questions[questionNumber]);
-  console.log('AISelectedAnswer', AISelectedAnswer);
+  console.log("questions[questionNumber]", questions[questionNumber]);
+  console.log("AISelectedAnswer", AISelectedAnswer);
   function renderStep() {
     switch (step) {
       case 1: {
@@ -219,9 +223,8 @@ export default function Home() {
                   <img
                     src="/image/gamer.png"
                     alt="gamer"
-                    className={`m-auto transition duration-[15s] ${
-                      currentIndex > 5 ? 'brightness-[0.5]' : 'brightness-[0]'
-                    }`}
+                    className={`m-auto transition duration-[15s] ${currentIndex > 5 ? "brightness-[0.5]" : "brightness-[0]"
+                      }`}
                   />
                 </div>
                 <div className="h-[120px] text-[120px] text-[#cc0000] font-[ghastly-panic] flex">
@@ -253,13 +256,13 @@ export default function Home() {
                     onClick={() => setGamerSelectedAnswer(answer.id)}
                   >
                     <div className="flex gap-2 font-[new-tegomin-regular] ">
-                      <span className="font-medium">{answer.id})</span>{' '}
+                      <span className="font-medium">{answer.id})</span>{" "}
                       {answer.text}
                       {gamerSelectedAnswer === answer.id && (
                         <Image
                           width={24}
                           height={24}
-                          src={'/image/ai.png'}
+                          src={"/image/ai.png"}
                           alt="AI IS HERE"
                         />
                       )}
@@ -267,7 +270,7 @@ export default function Home() {
                         <Image
                           width={24}
                           height={24}
-                          src={'/image/ai.png'}
+                          src={"/image/ai.png"}
                           alt="AI IS HERE"
                         />
                       )}
@@ -282,9 +285,9 @@ export default function Home() {
                   <Image
                     width={24}
                     height={24}
-                    src={'/image/ai.png'}
+                    src={"/image/ai.png"}
                     alt="AI IS HERE"
-                  />{' '}
+                  />{" "}
                   : 讓我思考一下...
                 </div>
               ) : (
