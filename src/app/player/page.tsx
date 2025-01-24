@@ -4,13 +4,9 @@ import { useState } from 'react';
 
 function Player() {
   const [error, setError] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
   async function handleSubmit(selectedAnswer: string) {
-    const answer = JSON.stringify({
-      answer: selectedAnswer,
-    });
-
-    console.log('answer', answer);
     let data: any;
     try {
       const response = await axios.post(
@@ -21,6 +17,8 @@ function Player() {
       );
 
       data = response.data;
+
+      setSubmitted(true);
     } catch (err) {
       const error = err as AxiosError<any>;
 
@@ -31,21 +29,53 @@ function Player() {
 
   console.log(error);
 
+  function handleContinue() {
+    window.location.reload();
+  }
+
   return (
-    <div className="p-3">
-      <div>Welcome Player.</div>
-      <div>Choose your answer wisely.</div>
-      <div className="flex flex-col gap-4 h-full mt-9">
-        <button className="text-5xl" onClick={() => handleSubmit('A')}>
+    <div className="p-6 bg-gray-900 h-screen flex flex-col items-center justify-center text-white">
+      {submitted && (
+        <div className="w-full h-full bg-red">
+          Please wait for next round before pressing continue.
+          <button
+            onClick={handleContinue}
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-lg text-4xl shadow-lg"
+          >
+            CONTINUE
+          </button>
+        </div>
+      )}
+
+      <div className="text-center">
+        <h1 className="text-2xl font-semibold">Welcome Player.</h1>
+        <p className="text-lg mt-2">
+          Choose your answer <span className="text-red"> wisely.</span>
+        </p>
+      </div>
+      <div className="flex flex-col gap-6 mt-12 w-full max-w-md">
+        <button
+          className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-lg text-4xl shadow-lg"
+          onClick={() => handleSubmit('A')}
+        >
           A
         </button>
-        <button className="text-5xl" onClick={() => handleSubmit('B')}>
+        <button
+          className="bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-lg text-4xl shadow-lg"
+          onClick={() => handleSubmit('B')}
+        >
           B
         </button>
-        <button className="text-5xl" onClick={() => handleSubmit('C')}>
+        <button
+          className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-4 rounded-lg text-4xl shadow-lg"
+          onClick={() => handleSubmit('C')}
+        >
           C
         </button>
-        <button className="text-5xl" onClick={() => handleSubmit('D')}>
+        <button
+          className="bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-lg text-4xl shadow-lg"
+          onClick={() => handleSubmit('D')}
+        >
           D
         </button>
       </div>

@@ -9,6 +9,7 @@ const text = 'I WANT TO PLAY A GAME...';
 const answerSeconds = 10;
 
 const domain = 'https://b99d-210-242-7-79.ngrok-free.app';
+
 interface Questions {
   [key: number]: {
     question: string;
@@ -267,6 +268,7 @@ export default function Home() {
 
   console.log('questions[questionNumber]', questions[questionNumber]);
   console.log('AISelectedAnswer', AISelectedAnswer);
+
   function renderStep() {
     switch (step) {
       case 1: {
@@ -298,18 +300,18 @@ export default function Home() {
           </div>
         );
       }
+
       case 2: {
         return (
           <>
-            <h2 className="text-[70px] font-[new-tegomin-regular] text-[#aa0000]">
+            <h2 className="text-[45px] font-[new-tegomin-regular] text-[#aa0000]">
               問題{questionNumber}
             </h2>
             <div className="w-[1200px] mx-auto mt-10 shadow-lg rounded-lg">
-              {/* <h1 className="text-2xl font-bold mb-4"></h1> */}
-              <p className="text-[70px] text-[#aa0000] mb-6 font-[new-tegomin-regular]">
+              {/* <h1 className="text-2xl font-bold mb-4"></h1> */}{' '}
+              <p className="text-[45px] text-[#aa0000] mb-6 font-[new-tegomin-regular]">
                 {questions[questionNumber]?.question}
               </p>
-
               <ul className="space-y-4 w-[700px] mx-[auto] mt-[80px]">
                 {questions[questionNumber]?.answers.map((answer) => (
                   <li
@@ -356,10 +358,9 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-
               {/* AI Thinking Corner */}
               {aiThinking ? (
-                <div className="text-[30px] w-[700px] mx-[auto] mt-[40px] flex gap-2 pt-2 w-100 text-center font-medium text-[#aa0000] font-[new-tegomin-regular]">
+                <div className="text-[25px] w-[700px] mx-[auto] mt-[40px] flex gap-2 pt-2 w-100 text-center font-medium text-[#aa0000] font-[new-tegomin-regular]">
                   <Image
                     width={24}
                     height={24}
@@ -371,14 +372,12 @@ export default function Home() {
               ) : (
                 <div className="mt-4"></div>
               )}
-
               {/* <button
                 onClick={handleAIChooseAnswer}
                 className="mt-6 w-full bg-gray-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition"
               >
                 AI Answer
               </button> */}
-
               <div className="w-full text-right h-[100px]">
                 {seconds === 0 && (
                   <button
