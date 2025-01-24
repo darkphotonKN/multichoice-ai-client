@@ -252,6 +252,7 @@ export default function Home() {
     setSeconds(answerSeconds);
     setQuestionNumber((prev) => prev + 1);
     setAISelectedAnswer(null);
+    setGamerMostAnswer('');
     setIsAIAnswer(false);
     setAiHasAnswered(false); // 一題只能回答一次 允許下一題作答
   };
