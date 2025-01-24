@@ -9,6 +9,7 @@ const text = 'I WANT TO PLAY A GAME...';
 const answerSeconds = 10;
 
 const domain = 'https://bd35-210-242-7-79.ngrok-free.app';
+
 interface Questions {
   [key: number]: { question: string; answers: { id: string; text: string }[] };
 }
@@ -40,7 +41,9 @@ export default function Home() {
   const [questionNumber, setQuestionNumber] = useState(0);
   const [aiThinking, setAiThinking] = useState(false);
   const [isAIAnswer, setIsAIAnswer] = useState(false);
-
+  const [gamerSelectedAnswer, setGamerSelectedAnswer] = useState<string | null>(
+    null
+  );
   const [AISelectedAnswer, setAISelectedAnswer] = useState<string | null>(null);
 
   const [displayText, setDisplayText] = useState('');

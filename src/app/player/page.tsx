@@ -9,8 +9,9 @@ function Player() {
     const answer = JSON.stringify({
       answer: selectedAnswer,
     });
+
     console.log('answer', answer);
-    let data;
+    let data: any;
     try {
       const response = await axios.post(
         'https://bd35-210-242-7-79.ngrok-free.app/api/game/submitAnswer',
