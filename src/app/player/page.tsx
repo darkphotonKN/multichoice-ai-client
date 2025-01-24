@@ -36,17 +36,16 @@ function Player() {
   return (
     <div className="p-6 bg-gray-900 h-screen flex flex-col items-center justify-center text-white">
       {submitted && (
-        <div className="w-full h-full bg-red">
-          Please wait for next round before pressing continue.
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center z-10">
+          <p className="text-2xl font-bold mb-6 text-center">請等待下一回合</p>
           <button
             onClick={handleContinue}
-            className="bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-lg text-4xl shadow-lg"
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg text-4xl shadow-lg"
           >
             CONTINUE
           </button>
         </div>
       )}
-
       <div className="text-center">
         <h1 className="text-2xl font-semibold">Welcome Player.</h1>
         <p className="text-lg mt-2">
