@@ -126,12 +126,7 @@ export default function Home() {
       Options: ${answers.map(({ id, text }) => `${id}. ${text}`)}
       Tell me the correct option—respond with the shortest answer possible, nothing else.
     `,
-<<<<<<< HEAD
-      },
-    );
-=======
     });
->>>>>>> 0c66526f1ad4602ea0a954290fd300c7c20b951c
 
     // const { data } = await axios.post(
     //   "http://localhost:8282/api/query-multi-choice",
@@ -211,63 +206,6 @@ export default function Home() {
     switch (step) {
       case 1: {
         return (
-<<<<<<< HEAD
-          <div className="max-w-xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
-            <h1 className="text-2xl font-bold text-gray-800 mb-4">第一題</h1>
-            <p className="text-lg text-gray-700 mb-6">{question}</p>
-
-            <ul className="space-y-4">
-              {answers.map((answer) => (
-                <li
-                  key={answer.id}
-                  className="text-xl text-black"
-                  onClick={() => setSelectedAnswer(answer.id)}
-                >
-                  <div className="flex gap-2">
-                    <span className="font-medium">{answer.id}</span>{" "}
-                    {answer.text}
-                    {selectedAnswer === answer.id && (
-                      <Image
-                        width={24}
-                        height={24}
-                        src={"/image/ai.png"}
-                        alt="AI IS HERE"
-                      />
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
-
-            {/* AI Thinking Corner */}
-            {aiThinking ? (
-              <div className="flex gap-2 pt-2 w-100 text-center font-medium text-gray-500">
-                <Image
-                  width={24}
-                  height={24}
-                  src={"/image/ai.png"}
-                  alt="AI IS HERE"
-                />{" "}
-                : 讓我思考試一下...
-              </div>
-            ) : (
-              <div className="mt-4"></div>
-            )}
-
-            <button
-              onClick={handleAIChooseAnswer}
-              className="mt-6 w-full bg-gray-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition"
-            >
-              AI Answer
-            </button>
-
-            <button
-              onClick={handleSubmit}
-              className="mt-6 w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition"
-            >
-              Submit
-            </button>
-=======
           <div
             className="text-center font-bold cursor-pointer"
             onClick={() => {
@@ -292,7 +230,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
->>>>>>> 0c66526f1ad4602ea0a954290fd300c7c20b951c
           </div>
         );
       }
@@ -380,15 +317,11 @@ export default function Home() {
 
   return (
     <div className="p-8">
-<<<<<<< HEAD
-      <h2 className="text-4xl">問答</h2>
-=======
       {step >= 2 && (
         <div className="text-[120px] text-center text-[#aa0000] font-[new-tegomin-regular]">
           {seconds}
         </div>
       )}
->>>>>>> 0c66526f1ad4602ea0a954290fd300c7c20b951c
       {renderStep()}
     </div>
   );
