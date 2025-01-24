@@ -1,14 +1,15 @@
-'use client';
+"use client";
 
-import axios from 'axios';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import axios from "axios";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const typingSpeed = 300;
-const text = 'I WANT TO PLAY A GAME...';
+const text = "I WANT TO PLAY A GAME...";
 const answerSeconds = 10;
 
-const domain = 'https://bd35-210-242-7-79.ngrok-free.app';
+const domain = "https://b99d-210-242-7-79.ngrok-free.app";
+
 interface Questions {
   [key: number]: {
     question: string;
@@ -19,56 +20,56 @@ interface Questions {
 
 const questions: Questions = {
   1: {
-    question: 'What is the capital of France?',
+    question: "What is the capital of France?",
     answers: [
-      { id: 'A', text: 'Berlin' },
-      { id: 'B', text: 'Madrid' },
-      { id: 'C', text: 'Paris' },
-      { id: 'D', text: 'Rome' },
+      { id: "A", text: "Berlin" },
+      { id: "B", text: "Madrid" },
+      { id: "C", text: "Paris" },
+      { id: "D", text: "Rome" },
     ],
-    realAnswer: 'C',
+    realAnswer: "C",
   },
   2: {
-    question: '你媽?',
+    question: "你媽?",
     answers: [
-      { id: 'A', text: 'Google' },
-      { id: 'B', text: 'IBM' },
-      { id: 'C', text: 'Gray' },
-      { id: 'D', text: 'OpenAI' },
+      { id: "A", text: "Google" },
+      { id: "B", text: "IBM" },
+      { id: "C", text: "Gray" },
+      { id: "D", text: "OpenAI" },
     ],
-    realAnswer: 'C',
+    realAnswer: "C",
   },
   3: {
     question:
-      '任天堂(Nintendo)的耀西(Yoshi)在2019年後被官方證實是哪一種動物(animals)?',
+      "任天堂(Nintendo)的耀西(Yoshi)在2019年後被官方證實是哪一種動物(animals)?",
     answers: [
-      { id: 'A', text: '蜥蜴(Lizard)' },
-      { id: 'B', text: '恐龍(Dinosaur)' },
-      { id: 'C', text: '小卷(Squid)' },
-      { id: 'D', text: '烏龜(Turtle)' },
+      { id: "A", text: "蜥蜴(Lizard)" },
+      { id: "B", text: "恐龍(Dinosaur)" },
+      { id: "C", text: "小卷(Squid)" },
+      { id: "D", text: "烏龜(Turtle)" },
     ],
-    realAnswer: 'C',
+    realAnswer: "C",
   },
   4: {
-    question: '在吉伊卡哇(Chīkawa)動畫中主角(ちいかわ)代表哪一種動物(animals)?',
+    question: "在吉伊卡哇(Chīkawa)動畫中主角(ちいかわ)代表哪一種動物(animals)?",
     answers: [
-      { id: 'A', text: '北極熊(Polar bear)' },
-      { id: 'B', text: '哈姆太郎(Hamtaro)' },
-      { id: 'C', text: '飛鼠(Flying squirrel)' },
-      { id: 'D', text: '兔子(Rabbit)' },
+      { id: "A", text: "北極熊(Polar bear)" },
+      { id: "B", text: "哈姆太郎(Hamtaro)" },
+      { id: "C", text: "飛鼠(Flying squirrel)" },
+      { id: "D", text: "兔子(Rabbit)" },
     ],
-    realAnswer: 'C',
+    realAnswer: "C",
   },
   5: {
     question:
-      'In the Netflix Korean drama Squid Game, what is the first game the contestants play?',
+      "In the Netflix Korean drama Squid Game, what is the first game the contestants play?",
     answers: [
-      { id: 'A', text: 'One, two, three, freeze!' },
-      { id: 'B', text: 'Tug of War' },
-      { id: 'C', text: 'Marbles' },
-      { id: 'D', text: 'Ride bike' },
+      { id: "A", text: "One, two, three, freeze!" },
+      { id: "B", text: "Tug of War" },
+      { id: "C", text: "Marbles" },
+      { id: "D", text: "Ride bike" },
     ],
-    realAnswer: 'C',
+    realAnswer: "C",
   },
 };
 
@@ -79,14 +80,14 @@ export default function Home() {
   // 開啟和關掉 ai 思考狀態的文字
   const [isAIAnswer, setIsAIAnswer] = useState(false);
   const [gamerSelectedAnswer, setGamerSelectedAnswer] = useState<string | null>(
-    null
+    null,
   );
   const [AISelectedAnswer, setAISelectedAnswer] = useState<string | null>(null);
 
-  const [displayText, setDisplayText] = useState('');
+  const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const [gamerMostAnswer, setGamerMostAnswer] = useState('');
+  const [gamerMostAnswer, setGamerMostAnswer] = useState("");
   const [allGamerAnswerData, setAllGamerAnswerData] = useState();
 
   // const question = "What is the capital of France?";
@@ -94,7 +95,7 @@ export default function Home() {
   // const question =
   // "In the Netflix Korean drama Squid Game, what is the first game the contestants play?";
   const question =
-    '任天堂(Nintendo)的耀西(Yoshi)在2019年後被官方證實是哪一種動物(animals)?';
+    "任天堂(Nintendo)的耀西(Yoshi)在2019年後被官方證實是哪一種動物(animals)?";
   // const question =
   //   "在吉伊卡哇(Chīkawa)動畫中主角(ちいかわ)代表哪一種動物(animals)?";
 
@@ -117,10 +118,10 @@ export default function Home() {
   //   { id: "D", text: "Ride bike" },
   // ];
   const answers = [
-    { id: 'A', text: '蜥蜴(Lizard)' },
-    { id: 'B', text: '恐龍(Dinosaur)' },
-    { id: 'C', text: '小卷(Squid)' },
-    { id: 'D', text: '烏龜(Turtle)' },
+    { id: "A", text: "蜥蜴(Lizard)" },
+    { id: "B", text: "恐龍(Dinosaur)" },
+    { id: "C", text: "小卷(Squid)" },
+    { id: "D", text: "烏龜(Turtle)" },
   ];
   // const answers = [
   //   { id: "A", text: "北極熊(Polar bear)" },
@@ -168,7 +169,7 @@ export default function Home() {
         Now answer the following question and match your answer to the correct option
       Question: ${questions[questionNumber].question}
       Options: ${questions[questionNumber].answers.map(
-        ({ id, text }) => `${id}. ${text}`
+        ({ id, text }) => `${id}. ${text}`,
       )}
       Tell me the correct option—respond with the shortest answer possible, nothing else.
     `,
@@ -182,7 +183,7 @@ export default function Home() {
     //   }),
     // );
 
-    console.log('AI Response to the question was: ', data);
+    console.log("AI Response to the question was: ", data);
     const match = data?.message?.content.match(/^[^.]+/); // 匹配.前的所有字符
     const result = match ? match[0] : null;
 
@@ -193,19 +194,19 @@ export default function Home() {
 
   const apiStart = async () => {
     const { data } = await axios.post(`${domain}/api/game/start`);
-    console.log('AI start ', data);
+    console.log("AI start ", data);
   };
 
   const apiEnd = async () => {
     const { data } = await axios.post(`${domain}/api/game/end`);
-    console.log('AI end ', data);
+    console.log("AI end ", data);
     if (data) {
       const answers = data?.score;
 
       let mostCounts = 0;
-      let mostAnswer = '';
+      let mostAnswer = "";
       for (const [answer, counts] of Object.entries(
-        answers as Record<string, number>
+        answers as Record<string, number>,
       )) {
         if (counts > mostCounts) {
           mostCounts = counts;
@@ -219,14 +220,17 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (currentIndex < text.length) {
-        setDisplayText((prevText) => prevText + text[currentIndex]);
-        setCurrentIndex((prevIndex) => prevIndex + 1);
-      } else {
-        clearInterval(interval);
-      }
-    }, typingSpeed + (currentIndex === 0 ? 6000 : 0));
+    const interval = setInterval(
+      () => {
+        if (currentIndex < text.length) {
+          setDisplayText((prevText) => prevText + text[currentIndex]);
+          setCurrentIndex((prevIndex) => prevIndex + 1);
+        } else {
+          clearInterval(interval);
+        }
+      },
+      typingSpeed + (currentIndex === 0 ? 6000 : 0),
+    );
 
     return () => {
       clearInterval(interval);
@@ -265,8 +269,9 @@ export default function Home() {
     }
   }, [seconds, isAIAnswer]);
 
-  console.log('questions[questionNumber]', questions[questionNumber]);
-  console.log('AISelectedAnswer', AISelectedAnswer);
+  console.log("questions[questionNumber]", questions[questionNumber]);
+  console.log("AISelectedAnswer", AISelectedAnswer);
+
   function renderStep() {
     switch (step) {
       case 1: {
@@ -284,9 +289,8 @@ export default function Home() {
                   <img
                     src="/image/host.png"
                     alt="gamer"
-                    className={`m-auto transition duration-[15s] ${
-                      currentIndex > 10 ? 'brightness-[0.5]' : 'brightness-[0]'
-                    }`}
+                    className={`m-auto transition duration-[15s] ${currentIndex > 10 ? "brightness-[0.5]" : "brightness-[0]"
+                      }`}
                   />
                 </div>
                 <div className="h-[120px] text-[120px] text-[#cc0000] font-[ghastly-panic] flex">
@@ -298,41 +302,40 @@ export default function Home() {
           </div>
         );
       }
+
       case 2: {
         return (
           <>
-            <h2 className="text-[70px] font-[new-tegomin-regular] text-[#aa0000]">
+            <h2 className="text-[45px] font-[new-tegomin-regular] text-[#aa0000]">
               問題{questionNumber}
             </h2>
             <div className="w-[1200px] mx-auto mt-10 shadow-lg rounded-lg">
-              {/* <h1 className="text-2xl font-bold mb-4"></h1> */}
-              <p className="text-[70px] text-[#aa0000] mb-6 font-[new-tegomin-regular]">
+              {/* <h1 className="text-2xl font-bold mb-4"></h1> */}{" "}
+              <p className="text-[45px] text-[#aa0000] mb-6 font-[new-tegomin-regular]">
                 {questions[questionNumber]?.question}
               </p>
-
               <ul className="space-y-4 w-[700px] mx-[auto] mt-[80px]">
                 {questions[questionNumber]?.answers.map((answer) => (
                   <li
                     key={answer.id}
                     className="text-xl text-[#aa0000] h-[70px]"
-                    // onClick={() => setGamerSelectedAnswer(answer.id)}
+                  // onClick={() => setGamerSelectedAnswer(answer.id)}
                   >
                     <div
                       className={`flex gap-2 font-[new-tegomin-regular] text-[40px]`}
                     >
-                      <span className="font-medium">{answer.id})</span>{' '}
+                      <span className="font-medium">{answer.id})</span>{" "}
                       {answer.text}
                       {allGamerAnswerData &&
-                        `(${
-                          allGamerAnswerData?.[answer.id] +
-                          (AISelectedAnswer === answer.id ? 1 : 0)
+                        `(${allGamerAnswerData?.[answer.id] +
+                        (AISelectedAnswer === answer.id ? 1 : 0)
                         })`}
                       {questions[questionNumber]?.realAnswer === answer.id &&
                         seconds === 0 && (
                           <Image
                             width={36}
                             height={36}
-                            src={'/image/right.png'}
+                            src={"/image/right.png"}
                             alt="AI IS HERE"
                           />
                         )}
@@ -340,7 +343,7 @@ export default function Home() {
                         <Image
                           width={24}
                           height={24}
-                          src={'/image/gamer.png'}
+                          src={"/image/gamer.png"}
                           alt="AI IS HERE"
                         />
                       )}
@@ -348,7 +351,7 @@ export default function Home() {
                         <Image
                           width={24}
                           height={24}
-                          src={'/image/ai.png'}
+                          src={"/image/ai.png"}
                           alt="AI IS HERE"
                         />
                       )}
@@ -356,29 +359,26 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-
               {/* AI Thinking Corner */}
               {aiThinking ? (
-                <div className="text-[30px] w-[700px] mx-[auto] mt-[40px] flex gap-2 pt-2 w-100 text-center font-medium text-[#aa0000] font-[new-tegomin-regular]">
+                <div className="text-[25px] w-[700px] mx-[auto] mt-[40px] flex gap-2 pt-2 w-100 text-center font-medium text-[#aa0000] font-[new-tegomin-regular]">
                   <Image
                     width={24}
                     height={24}
-                    src={'/image/ai.png'}
+                    src={"/image/ai.png"}
                     alt="AI IS HERE"
-                  />{' '}
+                  />{" "}
                   : 讓我思考一下...
                 </div>
               ) : (
                 <div className="mt-4"></div>
               )}
-
               {/* <button
                 onClick={handleAIChooseAnswer}
                 className="mt-6 w-full bg-gray-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition"
               >
                 AI Answer
               </button> */}
-
               <div className="w-full text-right h-[100px]">
                 {seconds === 0 && (
                   <button
